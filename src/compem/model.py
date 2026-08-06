@@ -1,9 +1,19 @@
-#学習処理を以下に記述
-import statsmodels.api as sm
+from sklearn.linear_model import LogisticRegression
 
 
 def train_model(X_train, y_train):
-    model = sm.Logit(y_train, X_train)
-    result = model.fit(disp=0)
+    """
+    L2正則化付きロジスティック回帰を学習する。
+    Cを小さくすることで、TF-IDFによる過学習を抑える。
+    """
 
-    return result
+    model = LogisticRegression(
+        C=0.05,
+        solver="liblinear",
+        max_iter=3000,
+        random_state=42
+    )
+
+    model.fit(X_train, y_train)
+
+    return model
